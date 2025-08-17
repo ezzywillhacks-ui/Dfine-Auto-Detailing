@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7-Day Countdown Timer</title>
+    <style>
+        .timer-container {
+            text-align: center;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            color: #d4af37; /* Luxurious gold color */
+            padding: 20px;
+            transform: scale(1); /* Default scale, adjustable in code */
+            transition: transform 0.3s ease;
+        }
+
+        .timer-display {
+            font-size: 3.5em; /* Adjustable base font size */
+            font-weight: bold;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        .timer-labels {
+            font-size: 1.2em;
+            font-weight: normal;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        .timer-labels span {
+            margin: 0 10px;
+        }
+
+        @media (max-width: 600px) {
+            .timer-display {
+                font-size: 2em;
+            }
+
+            .timer-labels {
+                font-size: 0.9em;
+            }
+        }
+
+        @media (min-width: 601px) and (max-width: 1024px) {
+            .timer-display {
+                font-size: 2.8em;
+            }
+
+            .timer-labels {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="timer-container" id="timerContainer">
+        <div class="timer-display" id="timerDisplay">07:00:00</div>
+        <div class="timer-labels">
+            <span>Days</span><span>Hours</span><span>Minutes</span>
+        </div>
+    </div>
+
+    <script>
+        // To start the timer, uncomment the following line and set your desired start date
+         const startDate = new Date('2025-08-17T18:05:00'); // Example: Replace with your start date
+
+        let timerInterval = null;
+
+        function startTimer() {
+            // If startDate is not defined, the timer won't start
+            if (typeof startDate === 'undefined') {
+                document.getElementById('timerDisplay').textContent = '07:00:00';
+                return;
+            }
+
+            const endDate = new Date(startDate.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 days from start
+
+            timerInterval = setInterval(() => {
+                const now = new Date();
+                const timeLeft = endDate - now;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('timerDisplay').textContent = '00:00:00';
+                    return;
+                }
+
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+
+                document.getElementById('timerDisplay').textContent =
+                    `${String(days).padStart(2, '0')}:${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        // Uncomment the following line to start the timer automatically when the page loads
+        // startTimer();
+    </script>
+</body>
+</html>
